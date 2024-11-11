@@ -33,7 +33,6 @@ session_start();
 <body>
 
   <div id="success-alert" style="position: fixed;z-index: 1100; width: 40%; right: 0;bottom: 0;"></div>
-
   <div>
     <form action="" method="post" class="container  col-8">
       <div class=" mb-5 container">
