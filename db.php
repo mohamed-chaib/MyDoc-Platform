@@ -1,7 +1,7 @@
 <?php
 
 // download composer
-require __DIR__ ."/vendor/autoload.php";
+require "./vendor/autoload.php";
 // get the databse connect information from the .env
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();

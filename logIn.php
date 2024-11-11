@@ -64,25 +64,31 @@ session_start();
     </form>
   </div>
   <?php
-  // connect with database 
+  // CONNECT WITH THE DATABASE 
   require_once __DIR__ . "/db.php";
-  require_once "./Classes/Etudiant.php";
-  // check if there is a request
+  require_once "./Classes/User.php";
+
+  // CHECK IF THERE IS A REQUEST 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $matricule = $_POST['matricule'];
     $password = $_POST['password'];
-    $etd =   new Etudiant($matricule, $password);
-    $isLogIn = $etd->logIn($conn);
+
+    // CREATE USER INSTANCE 
+    $user =   new User($matricule, $password);
+    
+    // LOG IN THE USER 
+    $isLogIn = $user->logIn($conn);
     if ($isLogIn) {
-      header("Location: ./index.php");
-    } else { ?>
+      $userType  = $user->getUserType();
+      $userType=="admin"?  header("Location: ./admin.html") : header("Location: ./index.php");
+    } else {  ?>
       <script>
         showAlertMessage("Log In Unsuccessfuly", "danger")
-      </script>
+      </script> 
   <?php 
       
     }
-  }
+  } 
   ?>
 
 </body>
