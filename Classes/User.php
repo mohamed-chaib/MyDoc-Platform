@@ -14,8 +14,7 @@ class User
   {
     return $this->userType;
   }
-  public function logIn($conn)
-  {
+  public function logIn($conn){
       try {
 
           // sql statment

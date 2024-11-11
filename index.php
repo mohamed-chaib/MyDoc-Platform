@@ -1,198 +1,95 @@
 <?php
 session_start();
-if (!isset($_SESSION["token"])) {
-   header("Location: ./login.php");
-}
-?>
+?><!--START THE SESSION-->
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MyDoc</title>
 
-    <!--IMPORT BOOTSTRAP-->
-    <link
-      rel="stylesheet"
-      href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--import bootstrap-->
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <title>Document</title>
+</head>
+<script>
+  function showAlertMessage(message, type) {
+    const alertPlaceholder = document.getElementById("success-alert");
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = [
+      `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+      '   <button id="close-alert" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+      `   <div>${message}</div>`,
+      "</div>",
+    ].join("");
+    alertPlaceholder.append(wrapper);
+    setTimeout(() => {
+      document.getElementById("close-alert").click();
+    }, 3000);
+  }
+</script>
 
-    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!--md-bootstrap-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/mdb-bootstrap@5.0.1/css/mdb.min.css"
-    />
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/mdb-bootstrap@5.0.1/js/mdb.min.js"
-    ></script>
-  </head>
-  <body class="font-monospace">
-    <!-- NAVIGATION BAR-->
-    <nav class="navbar navbar-expand-lg bg-body sticky-top shadow-sm">
-      <div class="container-xxl">
-        <a class="navbar-brand" href="#">
-          <img
-            src="./images/logeFSboumerdes.png"
-            alt="Bootstrap"
-            height="100"
-          />
-        </a>
-        <button
-          class="navbar-toggler text-light bg-white"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-link active fs-5" aria-current="page" href="#"
-              >Home</a
-            >
-            <a class="nav-link fs-5" href="state.html">State</a>
-          </div>
-        </div>
+<body>
+
+  <div id="success-alert" style="position: fixed;z-index: 1100; width: 40%; right: 0;bottom: 0;"></div>
+  <div>
+    <form action="" method="post" class="container  col-8">
+      <div class=" mb-5 container">
+        <img src="./images/logeFSboumerdes.png" alt="" class="w-100" />
       </div>
-    </nav>
-    <!--HERO SECTION-->
-    <section class="py-2 bg-body-tertiary font-monospace">
-      <div class="p-4 text-center">
-        <h1 class="mb-3 fw-bolder">
-          My<span style="color: #3b71ca">Doc</span> Platform
-        </h1>
-        <h3 class="mb-5 text-wrap">
-         <div class="mb-4"> Generate your school documents online via the MyDoc platform.</div>
-       
-         <div> you can easily order your document in just a few clicks.</div>
-          
-          
-        </h3>
-        <h4 class="fw-sm">
-          Order your <span style="color: #3b71ca">Documents Now!</span>
-        </h4>
+      <div class="form-floating mb-3 border-primary">
+        <input
+          type="number"
+          class="form-control"
+          id="floatingInput"
+          name="matricule"
+          required />
+        <label for="floatingInput">Matricule</label>
       </div>
-    </section>
-    <!--MAIN CONTENT -->
-    <main class="mb-5">
-      <div class="container my-4">
-        <h1>order your document</h1>
+      <div class="form-floating">
+        <input
+          type="password"
+          class="form-control mb-3"
+          id="floatingPassword"
+          placeholder="password"
+          name="password"
+          required />
+        <label for="floatingPassword ">assword</label>
       </div>
-      <div class="container p-5 bg-light-subtle shadow-sm border rounded">
-        <form class="row g-4 needs-validation" novalidate>
-          <!--FIRST NAME-->
-          <div class="col-md-4">
-            <label for="validationCustom01" class="form-label"
-              >First name</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="validationCustom01"
-              value="Mark"
-              required
-            />
-            <div class="valid-feedback">Looks good!</div>
-          </div>
-          <!--LAST NAME-->
-          <div class="col-md-4">
-            <label for="validationCustom02" class="form-label">Last name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="validationCustom02"
-              value="Otto"
-              required
-            />
-            <div class="valid-feedback">Looks good!</div>
-          </div>
-          <!--PLACE OF BIRTH-->
-          <div class="col-md-6">
-            <label for="validationCustom03" class="form-label"
-              >Place Of Birth</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="validationCustom03"
-              required
-            />
-            <div class="invalid-feedback">Please provide a valid city.</div>
-          </div>
-          <!--DATE OF BIRTH-->
-          <div class="col-md-6">
-            <label for="validationCustom03" class="form-label"
-              >Date Of Birth</label
-            >
-            <input
-              type="date"
-              class="form-control"
-              id="validationCustom03"
-              required
-            />
-            <div class="invalid-feedback">Please provide a Date</div>
-          </div>
-
-          <!--YEAR-->
-          <div class="col-md-3">
-            <label for="validationCustom04" class="form-label">Year</label>
-            <select class="form-select" id="validationCustom04" required>
-              <option selected disabled value="">Choose</option>
-              <option>L1</option>
-              <option>L2</option>
-              <option>L3</option>
-              <option>M1</option>
-              <option>M2</option>
-            </select>
-            <div class="invalid-feedback">Please select a valid state.</div>
-          </div>
-          <!--SELSECT TYPE OF DOCUMENT-->
-          <div class="col-md-3">
-            <label for="validationCustom04" class="form-label">Document</label>
-            <select class="form-select" id="validationCustom04" required>
-              <option selected disabled value="">Choose</option>
-              <option>Certificate of Education</option>
-              <option>Relevee De Note</option>
-              <option>Atestation De Bonne Conduite</option>
-            </select>
-            <div class="invalid-feedback">Please select a Document.</div>
-          </div>
-
-          <div class="col-12">
-            <button class="btn btn-primary" type="submit">Submit order</button>
-          </div>
-        </form>
+      <div class="d-grid gap-2">
+        <button class="btn text-white  shadow-sm fw-semibold" style="background-color: #3b71ca" type="submit">REGISTER</button>
       </div>
-    </main>
-    <script>
-      // Example starter JavaScript for disabling form submissions if there are invalid fields
-      (() => {
-        "use strict";
+    </form>
+  </div>
+  <?php
+  // CONNECT WITH THE DATABASE 
+  require_once __DIR__ . "/db.php";
+  require_once "./Classes/User.php";
 
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll(".needs-validation");
+  // CHECK IF THERE IS A REQUEST 
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $matricule = $_POST['matricule'];
+    $password = $_POST['password'];
 
-        // Loop over them and prevent submission
-        Array.from(forms).forEach((form) => {
-          form.addEventListener(
-            "submit",
-            (event) => {
-              if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
+    // CREATE USER INSTANCE 
+    $user =   new User($matricule, $password);
+    
+    // LOG IN THE USER 
+    $isLogIn = $user->logIn($conn);    // this return true or false
+    if ($isLogIn) {
+      $userType  = $user->getUserType();
+      $userType=="admin"?  header("Location: ./admin.php") : header("Location: ./etudiant.php");
+    } else {  ?>
+      <script>
+        showAlertMessage("Log In Unsuccessfuly", "danger")
+      </script> 
+  <?php 
+      
+    }
+  } 
+  ?>
 
-              form.classList.add("was-validated");
-            },
-            false
-          );
-        });
-      })();
-    </script>
-  </body>
+</body>
+
 </html>

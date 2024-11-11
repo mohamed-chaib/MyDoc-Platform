@@ -20,34 +20,6 @@ class Database{
            return  die("failed database connection : ". $exeption->getMessage());
         }
     }
-    public function logIn($conn,$matricule,$password){
-        try {
-        // sql statment
-        $sql = "select * from Etudiant where matricule= :matricule ";
-        // prepare the sql statment 
-        $stmt =$conn->prepare($sql);
-        // get the value of the variables 
-        $stmt->bindParam(":matricule",$matricule);
-        // execute the sql statment 
-        $stmt->execute();    // this function will return true or false 
-        // get the data of the etudiant from the database like tableau associative
-        $etudiant  = $stmt->fetch(PDO::FETCH_ASSOC);
-        // check if the the password is correct 
-        if($etudiant && password_verify($password,$etudiant['password'])){
-          echo " log in succedfuly";
-        }
-        else {
-          echo " log in unsuccedfuly";
-        }
-  
-  
-       } catch (PDOException $exeption) {
-  
-        die("  there is a problem  : ". $exeption->getMessage() );
-       }
-      }
-
-
 }
 
 ?>
