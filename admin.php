@@ -1,12 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION["token"])) {
-   header("Location: ./index.php");
+    header("Location: ./index.php");
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,7 +27,7 @@ if (!isset($_SESSION["token"])) {
             <a class="navbar-brand" href="#">
                 <img src="./images/logeFSboumerdes.png" alt="Bootstrap" height="100" />
             </a>
-            
+
         </div>
     </nav>
     <!--HERO SECTION-->
@@ -39,86 +38,244 @@ if (!isset($_SESSION["token"])) {
             </h1>
             <h3 class="mb-5 text-wrap">
                 <div class="mb-4"> Generate your school documents demande via the MyDoc platform.</div>
-
-                <div> </div>
-
-
             </h3>
         </div>
     </section>
     <!--MAIN CONTENT -->
     <main class="mb-5">
         <div class="container my-4">
-            <h1>order liste :</h1>
+            <h1>Orders</h1>
         </div>
-        <div class="container p-5 bg-light-subtle shadow-sm border rounded">
-            <div class="table-responsive">
-                <h4>in progress filed</h4>
-                <table class="table table-striped table-bordered">
-                    <thead class="thead-dark">
-                        <td>name</td>
-                        <td>type of document</td>
-                        <td>Request date</td>
-                        <td>Year of study</td>
-                        <td>Request status</td>   <!--(njiboha me basse de donnees) -->
-                        <td>traitment</td>
-                        <td>comment</td>
+        <div class="mx-3 p-1 table-responsive bg-light border border-3 rounded">
+            <table class="table table-light fs-5 ">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Year</th>
+                        <th scope="col">Matricule</th>
+                        <th scope="col-2">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Place Of Birth</th>
+                        <th scope="col">Date Of Birth</th>
+                        <th scope="col">Document Type </th>
+                        <th scope="col">Demand Date</th>
+                        <th scope="col">State</th>
 
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>mouhamed chaieb</td>
-                            <td>certaficat scolaire</td>
-                            <td>2024-11-08</td>
-                            <td>l3</td>
-                            <td>in progress</td>
-                            <td> 
-                                <button type="submit" class="btn btn-success me-2" style="font-size: 1.25rem; padding: 10px 20px;">
-                                  <i class="fa-solid fa-check"></i>
-                                </button>
-                                <button type="submit" class="btn btn-danger" style="font-size: 1.25rem; padding: 10px 20px;">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button
-                            </td>
-                            <td><input type="text" required>></td>
-                            
-
-                        </tr>
-                </table>
-            </div>
-
-
-            <div class="table-responsive">
-                <h4>already answered area</h4>
-                <table class="table table-striped table-bordered">
-                    <thead class="thead-dark">
-                        <td>name</td>
-                        <td>type of document</td>
-                        <td>Request date</td>
-                        <td>Year of study</td>
-                        <td>Request status</td>   <!--(njiboha me basse de donnees) -->
-                        <td>comment</td>
-
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>mouhamed chaieb</td>
-                            <td>certaficat scolaire</td>
-                            <td>2024-11-08</td>
-                            <td>l3</td>
-                            <td>pret</td>
-                            <td>oK</td>
-                            <td><button >modifier</button></td>
-                            
-
-                        </tr>
-                </table>
-            </div>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr >
+                        <td scope="row">1</td>
+                        <td scope="col">L3</td>
+                        <td scope="col">202239334814</td>
+                        <td scope="col-2">MOHAMMED</td>
+                        <td scope="col">CHAIB</td>
+                        <td scope="col">TOUGGOURT</td>
+                        <td scope="col">2022-03-04</td>
+                        <td scope="col">Relevee De Note</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-success">Ready For Take</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">2</td>
+                        <td scope="col">M1</td>
+                        <td scope="col">20223857414</td>
+                        <td scope="col-2">anes</td>
+                        <td scope="col">rahmoun</td>
+                        <td scope="col">alger</td>
+                        <td scope="col">2022-11-04</td>
+                        <td scope="col">Atestatin De Bonne Conduite</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-warning">In Progress</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td scope="col">L2</td>
+                        <td scope="col">202239334814</td>
+                        <td scope="col-2">walid</td>
+                        <td scope="col">anes</td>
+                        <td scope="col">oran</td>
+                        <td scope="col">2024-03-08</td>
+                        <td scope="col">Certaifcate of Education</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-primary">Requestd</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td scope="col">L3</td>
+                        <td scope="col">202239334814</td>
+                        <td scope="col-2">MOHAMMED</td>
+                        <td scope="col">CHAIB</td>
+                        <td scope="col">TOUGGOURT</td>
+                        <td scope="col">2022-03-04</td>
+                        <td scope="col">Relevee De Note</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-success">Ready For Take</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">2</td>
+                        <td scope="col">M1</td>
+                        <td scope="col">20223857414</td>
+                        <td scope="col-2">anes</td>
+                        <td scope="col">rahmoun</td>
+                        <td scope="col">alger</td>
+                        <td scope="col">2022-11-04</td>
+                        <td scope="col">Atestatin De Bonne Conduite</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-warning">In Progress</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td scope="col">L2</td>
+                        <td scope="col">202239334814</td>
+                        <td scope="col-2">walid</td>
+                        <td scope="col">anes</td>
+                        <td scope="col">oran</td>
+                        <td scope="col">2024-03-08</td>
+                        <td scope="col">Certaifcate of Education</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-primary">Requestd</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td scope="col">L3</td>
+                        <td scope="col">202239334814</td>
+                        <td scope="col-2">MOHAMMED</td>
+                        <td scope="col">CHAIB</td>
+                        <td scope="col">TOUGGOURT</td>
+                        <td scope="col">2022-03-04</td>
+                        <td scope="col">Relevee De Note</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-success">Ready For Take</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">2</td>
+                        <td scope="col">M1</td>
+                        <td scope="col">20223857414</td>
+                        <td scope="col-2">anes</td>
+                        <td scope="col">rahmoun</td>
+                        <td scope="col">alger</td>
+                        <td scope="col">2022-11-04</td>
+                        <td scope="col">Atestatin De Bonne Conduite</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-warning">In Progress</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td scope="col">L2</td>
+                        <td scope="col">202239334814</td>
+                        <td scope="col-2">walid</td>
+                        <td scope="col">anes</td>
+                        <td scope="col">oran</td>
+                        <td scope="col">2024-03-08</td>
+                        <td scope="col">Certaifcate of Education</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-primary">Requestd</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td scope="col">L3</td>
+                        <td scope="col">202239334814</td>
+                        <td scope="col-2">MOHAMMED</td>
+                        <td scope="col">CHAIB</td>
+                        <td scope="col">TOUGGOURT</td>
+                        <td scope="col">2022-03-04</td>
+                        <td scope="col">Relevee De Note</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-success">Ready For Take</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">2</td>
+                        <td scope="col">M1</td>
+                        <td scope="col">20223857414</td>
+                        <td scope="col-2">anes</td>
+                        <td scope="col">rahmoun</td>
+                        <td scope="col">alger</td>
+                        <td scope="col">2022-11-04</td>
+                        <td scope="col">Atestatin De Bonne Conduite</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-warning">In Progress</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td scope="col">L2</td>
+                        <td scope="col">202239334814</td>
+                        <td scope="col-2">walid</td>
+                        <td scope="col">anes</td>
+                        <td scope="col">oran</td>
+                        <td scope="col">2024-03-08</td>
+                        <td scope="col">Certaifcate of Education</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-primary">Requestd</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td scope="col">L3</td>
+                        <td scope="col">202239334814</td>
+                        <td scope="col-2">MOHAMMED</td>
+                        <td scope="col">CHAIB</td>
+                        <td scope="col">TOUGGOURT</td>
+                        <td scope="col">2022-03-04</td>
+                        <td scope="col">Relevee De Note</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-success">Ready For Take</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">2</td>
+                        <td scope="col">M1</td>
+                        <td scope="col">20223857414</td>
+                        <td scope="col-2">anes</td>
+                        <td scope="col">rahmoun</td>
+                        <td scope="col">alger</td>
+                        <td scope="col">2022-11-04</td>
+                        <td scope="col">Atestatin De Bonne Conduite</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-warning">In Progress</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td scope="col">L2</td>
+                        <td scope="col">202239334814</td>
+                        <td scope="col-2">walid</td>
+                        <td scope="col">anes</td>
+                        <td scope="col">oran</td>
+                        <td scope="col">2024-03-08</td>
+                        <td scope="col">Certaifcate of Education</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-primary">Requestd</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td scope="col">L3</td>
+                        <td scope="col">202239334814</td>
+                        <td scope="col-2">MOHAMMED</td>
+                        <td scope="col">CHAIB</td>
+                        <td scope="col">TOUGGOURT</td>
+                        <td scope="col">2022-03-04</td>
+                        <td scope="col">Relevee De Note</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-success">Ready For Take</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">2</td>
+                        <td scope="col">M1</td>
+                        <td scope="col">20223857414</td>
+                        <td scope="col-2">anes</td>
+                        <td scope="col">rahmoun</td>
+                        <td scope="col">alger</td>
+                        <td scope="col">2022-11-04</td>
+                        <td scope="col">Atestatin De Bonne Conduite</td>
+                        <td scope="col">2022-40-11</td>
+                        <td scope="col" class="text-warning">In Progress</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         </div>
     </main>
     <script>
-     
-   
+
+
     </script>
 </body>
 

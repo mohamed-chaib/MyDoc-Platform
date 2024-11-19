@@ -1,26 +1,14 @@
 <?php
 session_start();
 if (!isset($_SESSION["token"])) {
+  // GO TO THE LOGIN PAGE ID IS NOT HAVE ACCESS
   header("Location: ./index.php");
 } else{
-  // GET THE CONNECT WITH THE DATABASE
- require_once "db.php";
- require_once "./Classes/Demand.php";
-
- // CHECK IF THERE IS A REQUEST METHOD
- if ($_SERVER['REQUEST_METHOD'] === "POST") {
-
-   if (!empty($_POST) && isset($_SESSION['matricule'])) { // CHECK IF THERE IS A DATA 
-     $data = $_POST;  // $data it is array
-     // GET THE MATRICULE FROM SESSION STORAGE
-     $matricule  = $_SESSION['matricule'];
-
-     // CRAETE NEW DEMAND INTANSE
-     $demand  =  new Demand(); 
-     // SEND THE DATA 
-     $demand->sendData($conn, $matricule, $data); //  SEND THE DEMAND 
-   }
- }
+// GET THE USER MAIN LOGIC
+// FUNCTION THAT CONTAIN  :  
+   // SEND THE DEMAND 
+   // GET ALL THE DEMANDS
+  require_once "./userMainLogic.php";
 }
 ?>
 <!DOCTYPE html>
@@ -69,7 +57,7 @@ if (!isset($_SESSION["token"])) {
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-link active fs-5" aria-current="page" href="#">Home</a>
-          <a class="nav-link fs-5" href="state.html">State</a>
+          <a class="nav-link fs-5" href="state.php">State</a>
         </div>
       </div>
     </div>
@@ -168,7 +156,7 @@ if (!isset($_SESSION["token"])) {
           </select>
           <div class="invalid-feedback">Please select a Document.</div>
         </div>
-
+           <!-- -->
         <div class="col-12">
           <button class="btn btn-primary" type="submit">Submit order</button>
         </div>

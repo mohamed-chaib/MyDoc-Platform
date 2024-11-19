@@ -14,6 +14,7 @@ session_start();
   <title>Document</title>
 </head>
 <script>
+  // SHOW A ALERT IF THE  LOG IN USNSUCCESSFULL
   function showAlertMessage(message, type) {
     const alertPlaceholder = document.getElementById("success-alert");
     const wrapper = document.createElement("div");

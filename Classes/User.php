@@ -5,11 +5,13 @@ class User
   private $matricule;
   private $password;
   private $userType;
+  // INITIALIZE THE INFORNMATION OF THE USER
   public function __construct($matricule, $password)
   {
     $this->matricule = $this->testData($matricule);
     $this->password = $password;
   }
+  // GET THE USER TYPE
   public function getUserType()
   {
     return $this->userType;
@@ -21,6 +23,8 @@ class User
     return $this->matricule;
   }
 
+  // FUNCTION FOR LOG IN THE USER 
+  // RETURN TRUE IF IS LOG IN , ELSE RETURN FALSE  
   public function logIn($conn)
   {
     try {
@@ -64,6 +68,9 @@ class User
       die("  there is a problem  : " . $exeption->getMessage());
     }
   }
+  //  A FUNCTION FOR REGISTER A NEW USER 
+  // IT IS JUST FOR TEST 
+  // NOT USE IT IN THE PROJECT
   public function register($conn)
   {
     try {
