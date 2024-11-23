@@ -3,6 +3,22 @@ session_start();
 if (!isset($_SESSION["token"])) {
 //    header("Location: ./index.php");
 }
+
+
+$orderBy = $_POST['sortOption'] ?? 'etudiant_matricule';
+
+// Validate and sanitize the input (to prevent SQL injection, for example)
+$allowedSortOptions = ['etudiant_matricule', 'etudiant_year'];
+if (!in_array($orderBy, $allowedSortOptions)) {
+    $orderBy = 'etudiant_matricule';
+} 
+
+
+ include('./Classes/retinform.php');  // Inclure le fichier contenant la classe Admin
+  // Créer une instance de la classe Admin
+  $admin = new Admin();
+                        
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +44,7 @@ if (!isset($_SESSION["token"])) {
             <a class="navbar-brand" href="#">
                 <img src="./images/logeFSboumerdes.png" alt="Bootstrap" height="100" />
             </a>
-            
+
         </div>
     </nav>
     <!--HERO SECTION-->
@@ -50,40 +66,39 @@ if (!isset($_SESSION["token"])) {
     <main class="mb-5">
         <div class="container my-4">
             <h1>order liste :</h1>
+
+        </div>
         </div>
         <div class="container p-5 bg-light-subtle shadow-sm border rounded">
+
+            <form action="admin.php" method="POST" id="sortForm">
+                <label for="sortInput" class="form-label">Sort by:</label>
+                <select id="sortInput" name="sortOption" class="form-select">
+                    <option value="">---order by---</option>
+                    <option value="etudiant_matricule">Matricule</option>
+                    <option value="etudiant_year">Year</option>
+                </select>
+            </form>
+
             <div class="table-responsive">
 
                 <h4>in progress filed</h4>
                 <!-- Sort by Year Button -->
                 <table class="table table-striped table-bordered">
                     <thead class="thead-dark">
-                        <td>name</td>
-                        <td>type of document</td>
-                        <td>Request date</td>
-                        <td>Year of study</td>
-                        <td>Request status</td>   <!--(njiboha me basse de donnees) -->
-                        <td>traitment</td>
-                        <td>comment</td>
-
+                        <td>matricule</td>
+                        <td>First Name</td>
+                        <td>Last Name</td>
+                        <td>Place of Birth</td>
+                        <td>Date of Birth</td>
+                        <td>Year of Study</td>
+                        <td>Type of Document</td>
+                        <td>Comment</td>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>mouhamed chaieb</td>
-                            <td>certaficat scolaire</td>
-                            <td>2024-11-08</td>
-                            <td>l3</td>
-                            <td>in progress</td>
-                            <td> 
-                                <button type="submit" class="btn btn-success me-2" style="font-size: 1.25rem; padding: 10px 20px;">
-                                  <i class="fa-solid fa-check"></i>
-                                </button>
-                                <button type="submit" class="btn btn-danger" style="font-size: 1.25rem; padding: 10px 20px;">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button
-                            </td>
-                            <td><input type="text" required>></td>
-                            
+                            <?php $admin->setAddtableProgress($orderBy) ?>
+
 
                         </tr>
                 </table>
@@ -92,28 +107,26 @@ if (!isset($_SESSION["token"])) {
 
             <div class="table-responsive">
                 <h4>already answered area</h4>
+
+
+
                 <table class="table table-striped table-bordered">
-                <tr>
-                <td>matricule</td>
-            <td>First Name</td>
-            <td>Last Name</td>
-            <td>Place of Birth</td>
-            <td>Date of Birth</td>
-            <td>Year of Study</td>
-            <td>Type of Document</td>
-            <td>Comment</td>
-        </tr>
+                    <tr>
+                        <td>matricule</td>
+                        <td>First Name</td>
+                        <td>Last Name</td>
+                        <td>Place of Birth</td>
+                        <td>Date of Birth</td>
+                        <td>Year of Study</td>
+                        <td>Type of Document</td>
+                        <td>Comment</td>
+                    </tr>
 
                     <tbody>
                         <tr>
                             <?php
-                        include('./Classes/retinform.php');  // Inclure le fichier contenant la classe Admin
-                        
-                        // Créer une instance de la classe Admin
-                        $admin = new Admin();
-                        
                         // Appeler la méthode setAddtable() pour afficher le tableau
-                        $admin->setAddtablePret();
+                        $admin->setAddtable($orderBy);
                         ?>
 
                         </tr>
@@ -122,8 +135,10 @@ if (!isset($_SESSION["token"])) {
         </div>
     </main>
     <script>
-     
-   
+        // Automatically submit the form when the dropdown changes
+        document.getElementById('sortInput').addEventListener('change', function () {
+            document.getElementById('sortForm').submit();
+        });
     </script>
 </body>
 
