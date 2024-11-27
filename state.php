@@ -255,11 +255,7 @@ if (!isset($_SESSION["token"])) {
         );
       });
     })();
-
-
-    function name(params) {
-
-    }
+  
   </script>
 </body>
 

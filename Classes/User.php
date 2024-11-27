@@ -44,8 +44,7 @@ class User
       if ($user && password_verify($this->password, $user['password'])) {
         // get the type of  user (etudiant or admin)
         $this->userType = $user['type'];
-        // store the matricule in session storage
-        $_SESSION['matricule'] = $this->matricule;
+
         // generate the token
         $token  = bin2hex(random_bytes(32));
 
@@ -57,7 +56,8 @@ class User
         $stmt->execute();
         //store the token in session storage 
         $_SESSION['token'] = $token;
-
+        // store the matricule in session storage
+        $_SESSION['matricule'] = $this->matricule;
         // returen true if the log in success 
         return true;
       } else {

@@ -56,7 +56,7 @@ session_start();
           placeholder="password"
           name="password"
           required />
-        <label for="floatingPassword ">assword</label>
+        <label for="floatingPassword ">Password</label>
       </div>
       <div class="d-grid gap-2">
         <button class="btn text-white  shadow-sm fw-semibold" style="background-color: #3b71ca" type="submit">REGISTER</button>
