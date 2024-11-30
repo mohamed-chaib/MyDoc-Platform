@@ -4,11 +4,16 @@ class User
 {
   private $matricule;
   private $password;
+  private $email;
+  private $created_at;
   private $userType;
   // INITIALIZE THE INFORNMATION OF THE USER
   public function __construct($matricule, $password)
   {
     $this->matricule = $this->testData($matricule);
+    $this->email = $this->email;
+    $this->matricule = $this->testData($matricule);
+
     $this->password = $password;
   }
   // GET THE USER TYPE
