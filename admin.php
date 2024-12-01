@@ -5,12 +5,12 @@ if (!isset($_SESSION["token"])) {
 }
 
 
-$orderBy = $_POST['sortOption'] ?? 'etudiant_matricule';
+$orderBy = $_POST['sortOption'] ?? 'etudiant_first_name';
 
 // Validate and sanitize the input (to prevent SQL injection, for example)
-$allowedSortOptions = ['etudiant_matricule', 'etudiant_year'];
+$allowedSortOptions = ['etudiant_first_name', 'etudiant_year','etudiant_first_name','type_of_document'];
 if (!in_array($orderBy, $allowedSortOptions)) {
-    $orderBy = 'etudiant_matricule';
+    $orderBy = 'etudiant_first_name';
 } 
 
 
@@ -66,20 +66,22 @@ if (!in_array($orderBy, $allowedSortOptions)) {
     <main class="mb-5">
         <div class="container my-4">
             <h1>order liste :</h1>
-
-        </div>
-        </div>
-        <div class="container p-5 bg-light-subtle shadow-sm border rounded">
-
-            <form action="admin.php" method="POST" id="sortForm">
-                <label for="sortInput" class="form-label">Sort by:</label>
+            <form action="admin.php" method="POST" id="sortForm" style="width: 170px; position: relative; float: right;">
+                <label for="sortInput" class="form-label" ></label>
                 <select id="sortInput" name="sortOption" class="form-select">
                     <option value="">---order by---</option>
                     <option value="etudiant_matricule">Matricule</option>
                     <option value="etudiant_year">Year</option>
+                    <option value="type_of_document">type_of_document</option>
                 </select>
             </form>
 
+
+        </div>
+        </div>
+        <div class="container p-5 bg-light-subtle shadow-sm rounded">
+
+           
             <div class="table-responsive">
 
                 <h4>in progress filed</h4>
@@ -89,15 +91,14 @@ if (!in_array($orderBy, $allowedSortOptions)) {
                         <td>matricule</td>
                         <td>First Name</td>
                         <td>Last Name</td>
-                        <td>Place of Birth</td>
-                        <td>Date of Birth</td>
                         <td>Year of Study</td>
                         <td>Type of Document</td>
-                        <td>Comment</td>
+                        <td>state</td>
                     </thead>
                     <tbody>
                         <tr>
-                            <?php $admin->setAddtableProgress($orderBy) ?>
+                       <?php  $admin->displayInProgress($orderBy);?>
+
 
 
                         </tr>
@@ -115,8 +116,6 @@ if (!in_array($orderBy, $allowedSortOptions)) {
                         <td>matricule</td>
                         <td>First Name</td>
                         <td>Last Name</td>
-                        <td>Place of Birth</td>
-                        <td>Date of Birth</td>
                         <td>Year of Study</td>
                         <td>Type of Document</td>
                         <td>Comment</td>
@@ -126,7 +125,9 @@ if (!in_array($orderBy, $allowedSortOptions)) {
                         <tr>
                             <?php
                         // Appeler la méthode setAddtable() pour afficher le tableau
-                        $admin->setAddtable($orderBy);
+                        $admin->displayReadyOrRequested('etudiant_matricule');
+
+
                         ?>
 
                         </tr>
@@ -139,6 +140,7 @@ if (!in_array($orderBy, $allowedSortOptions)) {
         document.getElementById('sortInput').addEventListener('change', function () {
             document.getElementById('sortForm').submit();
         });
+     
     </script>
 </body>
 
