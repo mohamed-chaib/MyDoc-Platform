@@ -119,7 +119,6 @@ class Admin
 
                 if ($student) {
                     // Send an email to the student if an email is found
-                    $this->sendEmail($student['email'], $action, $comment);
                 }
 
                 // echo "Action '$action' effectuée avec succès pour l'étudiant $matricule.";
@@ -132,26 +131,7 @@ class Admin
     /**
      * Envoie un email à l'étudiant pour notifier du changement d'état.
      */
-    private function sendEmail($to, $action, $comment)
-    {
-        $subject = "Notification de votre demande";
-        $message = "Cher étudiant,\n\n";
-
-        if ($action === 'accept') {
-            $message .= "Votre demande a été acceptée. Vous pouvez récupérer le document demandé.\n";
-        } elseif ($action === 'reject') {
-            $message .= "Votre demande a été rejetée.\n";
-        }
-
-        if (!empty($comment)) {
-            $message .= "\nCommentaire de l'administrateur : $comment\n";
-        }
-
-        $message .= "\nCordialement,\nL'équipe administrative";
-
-        // Use mail() function to send the email (ensure mail server is configured)
-        mail($to, $subject, $message);
-    }
+    
 }
 
 // Utilisation de la classe Admin
