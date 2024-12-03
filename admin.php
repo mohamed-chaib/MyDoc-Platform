@@ -1,10 +1,24 @@
 <?php
 session_start();
 if (!isset($_SESSION["token"])) {
-    header("Location: ./index.php");
-} else {
-    require_once "./test_alldemad.php";
+//    header("Location: ./index.php");
 }
+
+
+$orderBy = $_POST['sortOption'] ?? 'etudiant_matricule';
+
+// Validate and sanitize the input (to prevent SQL injection, for example)
+$allowedSortOptions = ['etudiant_matricule', 'etudiant_year','type_of_document','etudiant_first_name'];
+if (!in_array($orderBy, $allowedSortOptions)) {
+    $orderBy = 'etudiant_first_name';
+} 
+
+
+ include('./Classes/retinform.php');  // Inclure le fichier contenant la classe Admin
+  // Créer une instance de la classe Admin
+  $admin = new Admin();
+                        
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,54 +55,93 @@ if (!isset($_SESSION["token"])) {
             </h1>
             <h3 class="mb-5 text-wrap">
                 <div class="mb-4"> Generate your school documents demande via the MyDoc platform.</div>
+
+                <div> </div>
+
+
             </h3>
         </div>
     </section>
     <!--MAIN CONTENT -->
     <main class="mb-5">
         <div class="container my-4">
-            <h1>Orders</h1>
+            <h1>order liste :</h1>
+            <form action="admin.php" method="POST" id="sortForm" style="width: 170px; position: relative; float: right;">
+                <label for="sortInput" class="form-label" ></label>
+                <select id="sortInput" name="sortOption" class="form-select">
+                    <option value="">---order by---</option>
+                    <option value="etudiant_matricule">Matricule</option>
+                    <option value="etudiant_year">Year</option>
+                    <option value="type_of_document">type_of_document</option>
+                </select>
+            </form>
+
+
         </div>
-        <div class="mx-3 p-1 table-responsive bg-light border border-3 rounded">
-            <table class="table table-light fs-5 ">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Year</th>
-                        <th scope="col">Matricule</th>
-                        <th scope="col-2">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Document Type </th>
-                        <th scope="col">Demand Date</th>
-                        <th scope="col">State</th>
+        </div>
+        <div class="container p-5 bg-light-subtle shadow-sm rounded">
 
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <?php
+           
+            <div class="table-responsive">
 
-                    foreach ($demands as $key => $value) {  ?>
+                <h4>in progress filed</h4>
+                <!-- Sort by Year Button -->
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <td>matricule</td>
+                        <td>First Name</td>
+                        <td>Last Name</td>
+                        <td>Year of Study</td>
+                        <td>Type of Document</td>
+                        <td>state</td>
+                    </thead>
+                    <tbody>
                         <tr>
-                            <td scope="row"><?php echo  $key++ ?></td>
-                            <td scope="col"><?php echo $value['etudiant_year'] ?></td>
-                            <td scope="col"><?php echo $value['etudiant_matricule'] ?></td>
-                            <td scope="col-2"><?php  echo $value['etudiant_first_name'] ?></td>
-                            <td scope="col"><?php echo $value['etudiant_last_name'] ?></td>
-                            <td scope="col"><?php echo $value['type_of_document'] ?></td>
-                            <td scope="col"><?php echo $value['created_at'] ?></td>
-                            <td scope="col" class=" <?php stateColor($value['order_state']) ?>" >  <?php echo   $value['order_state'] ?></td>
-                            </tr>
-                    <?php } ?>
-                   
-                    
-                </tbody>
-            </table>
-        </div>
+                       <?php  $admin->displayInProgress($orderBy);?>
+
+
+
+                        </tr>
+                </table>
+            </div>
+
+
+            <div class="table-responsive">
+                <h4>already answered area</h4>
+
+
+
+                <table class="table table-striped table-bordered">
+                    <tr>
+                        <td>matricule</td>
+                        <td>First Name</td>
+                        <td>Last Name</td>
+                        <td>Year of Study</td>
+                        <td>Type of Document</td>
+                        <td>state</td>
+                        <td>Comment</td>
+                    </tr>
+
+                    <tbody>
+                        <tr>
+                            <?php
+                        // Appeler la méthode setAddtable() pour afficher le tableau
+                        $admin->displayReadyOrRequested($orderBy);
+
+
+                        ?>
+
+                        </tr>
+                </table>
+            </div>
         </div>
     </main>
     <script>
-
-
+        // Automatically submit the form when the dropdown changes
+        document.getElementById('sortInput').addEventListener('change', function () {
+            document.getElementById('sortForm').submit();
+        });
+     
     </script>
 </body>
 
