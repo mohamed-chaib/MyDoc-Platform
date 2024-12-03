@@ -45,9 +45,12 @@ session_start();
           class="form-control"
           id="floatingInput"
           name="matricule"
+          placeholder="Matricule"
           required />
         <label for="floatingInput">Matricule</label>
       </div>
+
+      <!-- PASSWORD INPUT-->
       <div class="form-floating">
         <input
           type="password"
@@ -58,6 +61,7 @@ session_start();
           required />
         <label for="floatingPassword ">Password</label>
       </div>
+       
       <div class="d-grid gap-2">
         <button class="btn text-white  shadow-sm fw-semibold" style="background-color: #3b71ca" type="submit">REGISTER</button>
       </div>

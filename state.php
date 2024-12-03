@@ -32,70 +32,7 @@ if (!isset($_SESSION["token"])) {
 <body class="font-monospace">
   <!--MODAL : DETAILS TABLE-->
   <!-- Button trigger modal -->
-  <?php
-  // FUCNTONN FOR SHOW THE DETAILS OF THE MODAL 
-  function showDemandDetails($demande)
-  { ?>
 
-    <div
-      class="modal fade"
-      id="orderDetailsModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Details</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="p-1 table-responsive bg-light border border-3 rounded">
-              <table class="table table-light table-borderless fs-5">
-                <thead>
-                  <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Matricule</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col-2">Last Name</th>
-                    <th scope="col">Date Of Birth</th>
-                    <th scope="col">Place Of Birth</th>
-                    <th scope="col">Year</th>
-                    <th scope="col">Document Type </th>
-                    <th scope="col">State</th>
-
-                  </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                  <tr>
-                    <?php
-
-                    foreach ($demande as $key => $value) {  ?>
-
-
-
-                      <td scope="row"><?php echo $value   ?></td>
-
-
-                    <?php
-                    }
-                    ?>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  <?php
-  }
-  ?>
   <!-- Modal
   <div
     class="modal fade"
@@ -198,13 +135,18 @@ if (!isset($_SESSION["token"])) {
 
           <?php
 
-          foreach ($demands as $key => $value) {  ?>
-            <tr>
-              <td scope="row"><?php echo ++$key     ?></td>
-              <td scope="col"><?php echo   $value['type_of_document'] ?></td>
-              <td scope="col" class=" <?php stateColor($value['order_state']) ?>" >  <?php echo   $value['order_state'] ?></td>
-            </tr>
-          <?php } ?>
+          if (empty($demands)) {
+            echo "<th> No Demands</th>  ";
+          } else {
+            foreach ($demands as $key => $value) {  ?>
+              <tr>
+                <td scope="row"><?php echo ++$key     ?></td>
+                <td scope="col"><?php echo   $value['type_of_document'] ?></td>
+                <td scope="col" class=" <?php stateColor($value['order_state']) ?>"> <?php echo   $value['order_state'] ?></td>
+              </tr>
+          <?php }
+          }
+          ?>
 
         </tbody>
       </table>
@@ -222,7 +164,7 @@ if (!isset($_SESSION["token"])) {
       case 'In Progress':
         echo "text-warning";
         break;
-      case 'Ready For Take':
+      case 'Ready for take':
         echo "text-success";
         break;
       default:
@@ -255,7 +197,6 @@ if (!isset($_SESSION["token"])) {
         );
       });
     })();
-  
   </script>
 </body>
 

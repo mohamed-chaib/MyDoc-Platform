@@ -4,8 +4,9 @@ class User
 {
   private $matricule;
   private $password;
+  private $firstName;
+  private $lastName;
   private $email;
-  private $created_at;
   private $userType;
   // INITIALIZE THE INFORNMATION OF THE USER
   public function __construct($matricule, $password)
@@ -36,20 +37,35 @@ class User
 
       // sql statment
       $sql = "select * from users where matricule =  :matricule ";
+
       // prepare the sql statment 
       $stmt = $conn->prepare($sql);
+
       // get the value of the variables 
       $stmt->bindParam(":matricule", $this->matricule);
+
       // execute the sql statment 
       $stmt->execute();    // this function will return true or false 
+
       // get the data of the user from the database like tableau associative
       $user  = $stmt->fetch(PDO::FETCH_ASSOC);
       // check if the the password is correct
 
       if ($user && password_verify($this->password, $user['password'])) {
+
         // get the type of  user (etudiant or admin)
+        $this->firstName = $user['first_name'];
+        $this->lastName = $user['last_name'];
+        $this->email = $user['email'];
         $this->userType = $user['type'];
 
+        // STORE THE INFORMATION IN THE COOKIES
+        if($this->userType=="etudiant"){
+          setcookie("firstName",$this->firstName);
+        setcookie("lastName",$this->lastName);
+        setcookie("email",$this->email);
+        }
+        
         // generate the token
         $token  = bin2hex(random_bytes(32));
 

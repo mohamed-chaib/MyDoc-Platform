@@ -89,12 +89,14 @@ if (!isset($_SESSION["token"])) {
       <form class="row g-4 needs-validation" novalidate method="post" action="">
         <!--FIRST NAME-->
         <div class="col-md-4">
-          <label for="validationCustom01" class="form-label">First name</label>
+          <label for="validationCustom01" class="form-label">First Name</label>
           <input
             type="text"
             class="form-control"
             id="validationCustom01"
             name="first_name"
+            value= <?php echo $_COOKIE['firstName'] ;?> 
+            readonly
             required />
           <div class="valid-feedback">Looks good!</div>
         </div>
@@ -106,31 +108,25 @@ if (!isset($_SESSION["token"])) {
             class="form-control"
             id="validationCustom02"
             name="last_name"
+            value= <?php echo $_COOKIE['lastName'] ;?> 
+            readonly
             required />
           <div class="valid-feedback">Looks good!</div>
         </div>
-        <!--PLACE OF BIRTH-->
+        <!--EMAIL-->
         <div class="col-md-6">
-          <label for="validationCustom03" class="form-label">Place Of Birth</label>
+          <label for="validationCustom03" class="form-label">Email</label>
           <input
-            type="text"
+            type="email"
             class="form-control"
             id="validationCustom03"
-            name="place_of_birth"
+            name="email"
+            value= <?php echo $_COOKIE['email'] ;?> 
+            disabled
             required />
           <div class="invalid-feedback">Please provide a valid city.</div>
         </div>
-        <!--DATE OF BIRTH-->
-        <div class="col-md-6">
-          <label for="validationCustom03" class="form-label">Date Of Birth</label>
-          <input
-            type="date"
-            class="form-control"
-            id="validationCustom03"
-            name="date_of_birth"
-            required />
-          <div class="invalid-feedback">Please provide a Date</div>
-        </div>
+        
 
         <!--YEAR-->
         <div class="col-md-3">
