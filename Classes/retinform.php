@@ -17,7 +17,7 @@ class Admin
     {
         try {
             $conn = $this->db->connect();
-            $stmt = $conn->prepare("SELECT * FROM demand WHERE order_state = 'in progress' ORDER BY $orderBy");
+            $stmt = $conn->prepare("SELECT * FROM demand WHERE order_state IN ('in progress') ORDER BY $orderBy");
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -33,7 +33,7 @@ class Admin
                     <form action="admin.php" method="POST" class="d-flex align-items-center">
                         <button type="submit" name="action" value="accept" class="btn btn-success me-2">Accept</button>
                         <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
-                        <input type="hidden" name="comment" placeholder="Add a comment" class="form-control ms-3">
+                        <input type="text" name="comment" placeholder="Add a comment" class="form-control ms-3" required>
                         <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($row['etudiant_matricule']); ?>">
                     </form>
                 </td>
@@ -52,7 +52,7 @@ class Admin
     {
         try {
             $conn = $this->db->connect();
-            $stmt = $conn->prepare("SELECT * FROM demand WHERE order_state IN ('ready for take', 'requested') ORDER BY $orderBy");
+            $stmt = $conn->prepare("SELECT * FROM demand WHERE order_state IN ('ready for take', 'rejected') ORDER BY $orderBy");
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -64,6 +64,7 @@ class Admin
                 echo "<td>" . htmlspecialchars($row['etudiant_year']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['type_of_document']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['order_state']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['admin_comment']) . "</td>";
                 ?>
                 <td>
                     <form action="admin.php" method="POST" class="d-flex align-items-center">
@@ -98,7 +99,7 @@ class Admin
                 if ($action === 'accept') {
                     $status = 'ready for take';  // Set the status for 'accept'
                 } elseif ($action === 'reject') {
-                    $status = 'requested';  // Set the status for 'reject'
+                    $status = 'rejected';  // Set the status for 'reject'
                 } elseif ($action === 'modify') {
                     $status = 'in progress';  // Set the status for 'modify'
                 }
@@ -111,11 +112,45 @@ class Admin
                     ':matricule' => $matricule,
                 ]);
 
+                // Fetch the email of the student for notification
+                $stmt = $conn->prepare("SELECT email FROM users WHERE matricule = :matricule");
+                $stmt->execute([':matricule' => $matricule]);
+                $student = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($student) {
+                    // Send an email to the student if an email is found
+                    $this->sendEmail($student['email'], $action, $comment);
+                }
+
                 // echo "Action '$action' effectuée avec succès pour l'étudiant $matricule.";
             } catch (PDOException $e) {
-                echo "Erreur lors du traitement : " . $e->getMessage();
+                // echo "Erreur lors du traitement : " . $e->getMessage();
             }
         }
+    }
+
+    /**
+     * Envoie un email à l'étudiant pour notifier du changement d'état.
+     */
+    private function sendEmail($to, $action, $comment)
+    {
+        $subject = "Notification de votre demande";
+        $message = "Cher étudiant,\n\n";
+
+        if ($action === 'accept') {
+            $message .= "Votre demande a été acceptée. Vous pouvez récupérer le document demandé.\n";
+        } elseif ($action === 'reject') {
+            $message .= "Votre demande a été rejetée.\n";
+        }
+
+        if (!empty($comment)) {
+            $message .= "\nCommentaire de l'administrateur : $comment\n";
+        }
+
+        $message .= "\nCordialement,\nL'équipe administrative";
+
+        // Use mail() function to send the email (ensure mail server is configured)
+        mail($to, $subject, $message);
     }
 }
 

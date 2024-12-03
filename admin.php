@@ -5,10 +5,10 @@ if (!isset($_SESSION["token"])) {
 }
 
 
-$orderBy = $_POST['sortOption'] ?? 'etudiant_first_name';
+$orderBy = $_POST['sortOption'] ?? 'etudiant_matricule';
 
 // Validate and sanitize the input (to prevent SQL injection, for example)
-$allowedSortOptions = ['etudiant_first_name', 'etudiant_year','etudiant_first_name','type_of_document'];
+$allowedSortOptions = ['etudiant_matricule', 'etudiant_year','type_of_document','etudiant_first_name'];
 if (!in_array($orderBy, $allowedSortOptions)) {
     $orderBy = 'etudiant_first_name';
 } 
@@ -118,6 +118,7 @@ if (!in_array($orderBy, $allowedSortOptions)) {
                         <td>Last Name</td>
                         <td>Year of Study</td>
                         <td>Type of Document</td>
+                        <td>state</td>
                         <td>Comment</td>
                     </tr>
 
@@ -125,7 +126,7 @@ if (!in_array($orderBy, $allowedSortOptions)) {
                         <tr>
                             <?php
                         // Appeler la méthode setAddtable() pour afficher le tableau
-                        $admin->displayReadyOrRequested('etudiant_matricule');
+                        $admin->displayReadyOrRequested($orderBy);
 
 
                         ?>
