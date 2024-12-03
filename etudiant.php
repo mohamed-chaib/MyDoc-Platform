@@ -1,8 +1,8 @@
 <?php
-session_start();
+session_start();/*
 if (!isset($_SESSION["token"])) {
   header("Location: ./index.php");
-} else{
+} else{*/
   // GET THE CONNECT WITH THE DATABASE
  require_once "db.php";
  require_once "./Classes/Demand.php";
@@ -19,9 +19,9 @@ if (!isset($_SESSION["token"])) {
      $demand  =  new Demand(); 
      // SEND THE DATA 
      $demand->sendData($conn, $matricule, $data); //  SEND THE DEMAND 
-   }
+ /*  }
  }
-}
+}*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
