@@ -35,6 +35,7 @@ class Admin
                         <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
                         <input type="text" name="comment" placeholder="Add a comment" class="form-control ms-3" required>
                         <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($row['etudiant_matricule']); ?>">
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
                     </form>
                 </td>
                 <?php
@@ -70,6 +71,7 @@ class Admin
                     <form action="admin.php" method="POST" class="d-flex align-items-center">
                         <button type="submit" name="action" value="modify" class="btn btn-primary">Modify</button>
                         <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($row['etudiant_matricule']); ?>">
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
                     </form>
                 </td>
                 <?php
@@ -90,6 +92,7 @@ class Admin
                 $action = $_POST['action'];  // Get the action (accept, reject, modify)
                 $matricule = $_POST['matricule'];  // Get the student's matricule
                 $comment = $_POST['comment'] ?? '';  // Get the optional comment (if any)
+                $id = $_POST['id'];  // Get the optional comment 
                 $status = '';  // Initialize the status variable
 
                 // Connect to the database
@@ -105,11 +108,11 @@ class Admin
                 }
 
                 // Update the status and comment in the database
-                $stmt = $conn->prepare("UPDATE demand SET order_state = :status, admin_comment = :comment WHERE etudiant_matricule = :matricule");
+                $stmt = $conn->prepare("UPDATE demand SET order_state = :status, admin_comment = :comment WHERE id = :id");
                 $stmt->execute([
                     ':status' => $status,
                     ':comment' => $comment,
-                    ':matricule' => $matricule,
+                    ':id' => $id,
                 ]);
 
                 // Fetch the email of the student for notification
