@@ -1,6 +1,13 @@
 <?php
 include('Database.php');  // Assurez-vous que Database.php contient la connexion PDO correcte.
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
+//Load Composer's autoloader
+require 'vendor/autoload.php';
 class Admin
 {
     private $db;
@@ -35,6 +42,7 @@ class Admin
                         <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
                         <input type="text" name="comment" placeholder="Add a comment" class="form-control ms-3" required>
                         <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($row['etudiant_matricule']); ?>">
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
                     </form>
                 </td>
                 <?php
@@ -70,6 +78,7 @@ class Admin
                     <form action="admin.php" method="POST" class="d-flex align-items-center">
                         <button type="submit" name="action" value="modify" class="btn btn-primary">Modify</button>
                         <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($row['etudiant_matricule']); ?>">
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
                     </form>
                 </td>
                 <?php
@@ -90,6 +99,7 @@ class Admin
                 $action = $_POST['action'];  // Get the action (accept, reject, modify)
                 $matricule = $_POST['matricule'];  // Get the student's matricule
                 $comment = $_POST['comment'] ?? '';  // Get the optional comment (if any)
+                $id = $_POST['id'];  // Get the optional comment 
                 $status = '';  // Initialize the status variable
 
                 // Connect to the database
@@ -105,11 +115,11 @@ class Admin
                 }
 
                 // Update the status and comment in the database
-                $stmt = $conn->prepare("UPDATE demand SET order_state = :status, admin_comment = :comment WHERE etudiant_matricule = :matricule");
+                $stmt = $conn->prepare("UPDATE demand SET order_state = :status, admin_comment = :comment WHERE id = :id");
                 $stmt->execute([
                     ':status' => $status,
                     ':comment' => $comment,
-                    ':matricule' => $matricule,
+                    ':id' => $id,
                 ]);
 
                 // Fetch the email of the student for notification
@@ -119,6 +129,7 @@ class Admin
 
                 if ($student) {
                     // Send an email to the student if an email is found
+                   $this->sendEmail($student['email'],$action,$comment);
                 }
 
                 // echo "Action '$action' effectuée avec succès pour l'étudiant $matricule.";
@@ -131,6 +142,52 @@ class Admin
     /**
      * Envoie un email à l'étudiant pour notifier du changement d'état.
      */
+    public function sendEmail($email, $action, $comment){
+        
+//Create an instance; passing `true` enables exceptions
+$mail = new PHPMailer(true);
+$subject = "Notification de votre demande";
+$message = "Cher étudiant,\n\n";
+
+if ($action === 'accept') {
+    $message .= "Votre demande a été acceptée. Vous pouvez récupérer le document demandé.\n";
+} elseif ($action === 'reject') {
+    $message .= "Votre demande a été rejetée.\n";
+}
+
+if (!empty($comment)) {
+    $message .= "\nCommentaire de l'administrateur : $comment\n";
+}
+
+
+try {
+    //Server settings
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->SMTPAuth   = true;
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // Use STARTTLS with port 587
+    $mail->Username   = 'mohamedchaib964@gmail.com';                     //SMTP username
+    $mail->Password   = 'pczw vilh tjjz gtoq';                               //SMTP password
+    $mail->Port       = 587;                              //Enable SMTP authentication
+
+    //Recipients
+    $mail->setFrom('mohamedcahib964@gmail.com', 'MyDoc');
+    $mail->addAddress($email);     //Add a recipient
+
+    //Attachments
+   // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+   // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = $subject;
+    $mail->Body    = $message;
+    $mail->send();
+} catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+
+    }
     
 }
 
